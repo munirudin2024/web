@@ -1,0 +1,38 @@
+https://github.com/munirudin2024/web
+
+1️⃣ Buat repo baru di GitHub
+
+Login GitHub → klik “+” (atas kanan) → New repository.
+Nama: web-sederhana-pg (boleh lain).
+JANGAN centang Initialize with README.
+Klik Create repository.
+Nanti akan muncul URL seperti:
+https://github.com/YOUR_USERNAME/web-sederhana-pg.git
+
+2️⃣ Di Codespaces, inisialisasi Git
+
+cd /workspaces/web
+git init
+git add .
+git commit -m "feat: web CRUD PostgreSQL dari nol"
+
+3️⃣ Tambahkan remote & push
+
+git remote add origin https://github.com/YOUR_USERNAME/web-sederhana-pg.git
+git branch -M main
+git push -u origin main
+
+4️⃣ (Opsional) .gitignore agar node_modules & .env tidak ikut
+
+cat > .gitignore << 'EOF'
+node_modules/
+.env
+EOF
+git add .gitignore
+git commit -m "chore: add .gitignore"
+git push
+
+🏁 Selesai!
+Repo sekarang ada di GitHub dan bisa di-kloning kapan saja:
+
+git clone https://github.com/YOUR_USERNAME/web-sederhana-pg.git

@@ -1,5 +1,4 @@
-# web-------------------------------------------------
-1. Update repository dan add PostgreSQL official repo:
+1. Langkah instalasi posgresql di codespace
 # Update package list
 sudo apt update
 
@@ -19,9 +18,9 @@ sudo apt install -y postgresql postgresql-contrib
 
 # Install PostgreSQL client tools
 sudo apt install -y postgresql-client
+-------------------------------------------------
 
----------------------------------------------------------
-✅ Verification - Cek Instalasi
+✅ Verification Cek Instalasi
 
 1. Cek service PostgreSQL:
 # Cek semua services
@@ -29,6 +28,7 @@ service --status-all
 
 # Start PostgreSQL service
 sudo service postgresql start
+sudo service postgresql stop
 
 # Cek status PostgreSQL
 sudo service postgresql status
@@ -38,12 +38,11 @@ sudo service postgresql status
 psql --version
 
 # Cek .NET version
-dotnet --version
+psql --version && echo "---" && dotnet --version
 
 # Test PostgreSQL berjalan
 sudo -u postgres psql -c "SELECT version();"
-
-------------------------------------------------------------
+--------------------------------------------------
 Alternative: Manual Start PostgreSQL
 Kalau service command tidak work, coba manual:
 # Start PostgreSQL cluster
@@ -54,48 +53,79 @@ pg_lsclusters
 
 # Test connection
 sudo -u postgres psql
+-----------------------------------------------------------
 
-------------------------------------------------------------
+1. Jika tidak tahu pasword codespace standart
+# 1. reset pasword codespace
+sudo passwd codespace
+
+2. Untuk masuk ke postgresql di codespace
+# jadi root dulu (ini masih boleh di Codespaces)
+sudo -i
+
+# lalu jadi postgres
+sudo -u postgres psql
+
 🚀 Quick Setup Database
 Setelah PostgreSQL running:
 
 # 1. Set password postgres user
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'password123';"
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'pasword123';"
 
 # 2. Create database untuk portfolio
-sudo -u postgres createdb portfolio_db
+sudo -u postgres createdb todolist
 
 # 3. Test connection
 sudo -u postgres psql -l
 
-------------------------------------------------------------
-💡 Alternative: Pakai SQLite untuk Development
-Kalau PostgreSQL ribet di Codespace, bisa pakai SQLite dulu:
-# SQLite sudah built-in, tidak perlu install
-sqlite3 --version
+# masuk ke database
+\c todolist
 
-# Buat database SQLite
-sqlite3 portfolio.db
+# membuat tabel
+CREATE TABLE kelas (
+    id SERIAL PRIMARY KEY,
+    nama TEXT NOT NULL,
+    lulus BOOLEAN DEFAULT FALSE
+);
 
-------------------------------------------------------------
-Connection string SQLite untuk ASP.NET:
+# cek tabel
+\dt todolist
 
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Data Source=portfolio.db"
-  }
-}
+# memasukan data
+INSERT INTO kelas (nama, lulus) VALUES
+('muhammad', false),
+('munirudin', false);
 
-------------------------------------------------------------
-🎯 Coba Commands Ini:
-# 1. Check services
-service --status-all
+# lihat isi tabel
+SELECT * FROM kelas;
 
-# 2. Start PostgreSQL
-sudo service postgresql start
+# tamabah kolom baru
+alter table kelas add column umur integer;
 
-# 3. Check versions
-psql --version && echo "---" && dotnet --version
+# hapus data
+delete from kelas where nama 'nicolas';
+DELETE FROM kelas WHERE id = 1;
+DELETE FROM kelas WHERE id IN (1, 2, 3, 4, 5);
 
-# 4. Test PostgreSQL
-sudo -u postgres psql -c "SELECT version();"
+# update data cara 1
+update kelas set umur = 20 where nama 'muhammad';
+
+# update data cara 2
+update kelas
+set umur = 20
+where nama in 
+(
+'muhammad',
+'munirudin',
+'nicolas'
+);
+
+# update data cara 3
+update kelas
+set umur = 20
+where id betwen 1 and 3;
+
+# update semua yang belum punya umur
+UPDATE kelas
+SET umur = 20
+WHERE umur IS NULL;
