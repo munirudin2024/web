@@ -1,0 +1,4 @@
+cd /workspaces/web
+git add .
+git commit -m "feat: WMS lengkap PostgreSQL + Node.js"
+git push
