@@ -1,0 +1,44 @@
+A. Aktifkan pgcrypto lalu gunakan gen_salt (1x saja per DB):
+------------------------------------------------------------
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+
+Setelah itu query berikut akan jalan:
+-------------------------------------
+INSERT INTO users (id, username, email, password_hash, role, department, created_at)
+VALUES (
+    gen_random_uuid(),
+    'tester',
+    'tester@gagakhitam.com',
+    crypt('rahasia123', gen_salt('bf', 10)),
+    'admin',
+    'Management',
+    NOW()
+);
+----------------------------------------------------------
+wms_db
+INSERT INTO users (username, password, role)
+VALUES (
+  'super',
+  crypt('123456', gen_salt('bf')),
+  'admin'
+);
+-----------------------------------------------------------
+B. Kalau tidak mau pakai pgcrypto, hash dulu di Node:
+Di terminal:
+node -e "const bcrypt = require('bcrypt'); console.log(bcrypt.hashSync('rahasia123', 10));"
+
+Contoh output:
+$2b$10$eK8Pem5Q7K6tV9i3qZ5xUuI6H2oPzQ3Y4R5s6T7u8V9w0X1y2Z3A4B
+
+Masukkan hash tersebut langsung:
+INSERT INTO users (id, username, email, password_hash, role, department, created_at)
+VALUES (
+    gen_random_uuid(),
+    'tester',
+    'tester@gagakhitam.com',
+    '$2b$10$eK8Pem5Q7K6tV9i3qZ5xUuI6H2oPzQ3Y4R5s6T7u8V9w0X1y2Z3A4B',
+    'admin',
+    'Management',
+    NOW()
+);

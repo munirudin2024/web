@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS - Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav>
+        <h2>WMS Dashboard</h2>
+        <div>
+            <span id="userInfo"></span>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Filter -->
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Cari produk...">
+            <select id="categoryFilter">
+                <option value="">Semua Kategori</option>
+            </select>
+            <label>
+                <input type="checkbox" id="lowStockFilter"> Stok Rendah
+            </label>
+            <button onclick="exportCSV()">Export CSV</button>
+        </div>
+
+        <!-- Form tambah produk -->
+        <div class="add-product">
+            <h3>Tambah Produk Baru</h3>
+            <form id="addProductForm">
+                <input type="text" id="sku" placeholder="SKU" required>
+                <input type="text" id="name" placeholder="Nama Produk" required>
+                <select id="category" required>
+                    <option value="">Pilih Kategori</option>
+                </select>
+                <input type="number" id="quantity" placeholder="Jumlah" required>
+                <input type="number" id="price" placeholder="Harga" step="0.01" required>
+                <input type="number" id="minStock" placeholder="Stok Minimum" required>
+                <button type="submit">Tambah</button>
+            </form>
+        </div>
+
+        <!-- Tabel produk -->
+        <table id="productsTable">
+            <thead>
+                <tr>
+                    <th>SKU</th>
+                    <th>Nama</th>
+                    <th>Kategori</th>
+                    <th>Stok</th>
+                    <th>Harga</th>
+                    <th>Stok Min</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="productsBody"></tbody>
+        </table>
+
+        <!-- Modal update stok -->
+        <div id="stockModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Update Stok</h3>
+                <form id="stockForm">
+                    <input type="hidden" id="productId">
+                    <select id="stockType">
+                        <option value="IN">Stok Masuk</option>
+                        <option value="OUT">Stok Keluar</option>
+                    </select>
+                    <input type="number" id="stockQuantity" placeholder="Jumlah" required>
+                    <input type="text" id="stockNotes" placeholder="Catatan">
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/products.js"></script>
+    <script src="js/utils.js"></script>
+</body>
+</html>

@@ -49,5 +49,5 @@ app.post('/api/items', async (req, res) => {
 
 // Jalankan server
 app.listen(port, () => {
-  console.log(`Server ready → ${port}`);
+  console.log(`Server berjalan ${port}`);
 });

@@ -1,0 +1,3 @@
+mkdir AA && cd AA
+mkdir AA BB CC DD
+mkdir -p AA/{aa,bb} BB/{aa/{a,b},bb} CC/{aa/{a/{1,2},b},bb}

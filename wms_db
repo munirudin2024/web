@@ -1,0 +1,393 @@
+\ls
+\q
+\q
+\ls
+\databases
+\user
+\q
+create database todolist
+;
+create user adm with password '352968';
+GRANT ALL PRIVILEGES ON DATABASE tododb TO todouser;
+\q
+grant all privileges on database todolist to adm;
+\l
+\q
+\q
+cd todolist
+;
+\todolist
+/?
+\?
+\q
+\q
+ls
+;
+\ls
+\l
+\c todolist
+create table kelas (
+id serial primary key,
+nama text not null,
+lulus boolean default false,
+);
+create table kelas (
+id serial primary key,
+nama text not null,
+lulus boolean default false
+);
+selcet * from kelas;
+select * from kelas;
+insert into kelas (nama, lulus) values
+('muhammad', false),
+('munirudin', false),
+('nicolas', trues);
+insert into kelas (nama, lulus) values
+('muhammad', false),
+('munirudin', false),
+('nicolas', true);
+select * from kelas;
+\c ..
+\c postgres
+\c todolist
+\q
+\c todolist
+alter table kelas add column umur integer;
+update kelas set umur = 20 where nama = 'muhammad';
+update kelas set umur = 25 where nama in (
+'muhammad', 'munirudin', 'nicolas');
+select * from kelas;
+\q
+cd todolist
+;
+\c todolist
+\q
+\c todolist
+select * from kelas;
+ALTER USER postgres PASSWORD 'postgres';
+\q
+\l
+create database webdata;
+\c webdata
+create table (
+id serial primary key,
+name varchar(255) not null
+);
+slecect * web data;
+select * from web data;
+select * from webdata;
+\dt
+CREATE TABLE items (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+\dt items
+\q
+\c webdata
+select * from webata;
+select * from items;
+\q
+\l
+\c webdata
+\dt
+PGPASSWORD=352968 psql -U postgres -h localhost -d webdata -c "SELECT 1;"
+\dt
+\dt items
+select * from items;
+select * from items
+;
+\q
+\c webdata
+select * from items;
+select * from items;
+select * from items;
+select * from items;
+select * from items;
+\q
+\c webdata;
+select * from items;
+\dt
+\q
+\c webdata;
+SELECT * FROM items;
+SELECT * FROM items;
+SELECT * FROM items;
+\q
+\c dataweb;
+\c webdata;
+\q
+\c webdata;
+select*from items;
+\dt
+delete from table were id = 4;
+delete from webdata were id = 4;
+delete from items where id = 4;
+delete from items where id = 2 to 3;
+delete from items where id = 2;
+delete from items where id = 3;
+\l
+createdb wms_gagak_hitam
+;
+create databases  wms_gagak_hitam
+;
+create database wms_gagak_hitam
+;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE TABLE users (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role VARCHAR(20) CHECK (role IN ('admin', 'warehouse', 'qc', 'milling', 'mixing', 'packing', 'supplier')),
+    department VARCHAR(50),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+CREATE TABLE warehouses (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(100) NOT NULL,
+    location VARCHAR(255),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE storage_locations (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    warehouse_id UUID REFERENCES warehouses(id),
+    rack VARCHAR(20),
+    pallet VARCHAR(20),
+    box VARCHAR(20),
+    UNIQUE(warehouse_id, rack, pallet, box)
+);
+CREATE TABLE items (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    code VARCHAR(20) UNIQUE NOT NULL, -- SPA000123, BAG000234, ING000167
+    name VARCHAR(255) NOT NULL,
+    category VARCHAR(50),
+    description TEXT,
+    unit VARCHAR(20),
+    expiry_date DATE,
+    photo_url VARCHAR(500),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+\dt
+\ls
+\l
+\c wms_gagak_hitam;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE TABLE users (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role VARCHAR(20) CHECK (role IN ('admin', 'warehouse', 'qc', 'milling', 'mixing', 'packing', 'supplier')),
+    department VARCHAR(50),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+CREATE TABLE warehouses (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(100) NOT NULL,
+    location VARCHAR(255),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE storage_locations (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    warehouse_id UUID REFERENCES warehouses(id),
+    rack VARCHAR(20),
+    pallet VARCHAR(20),
+    box VARCHAR(20),
+    UNIQUE(warehouse_id, rack, pallet, box)
+);
+CREATE TABLE items (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    code VARCHAR(20) UNIQUE NOT NULL, -- SPA000123, BAG000234, ING000167
+    name VARCHAR(255) NOT NULL,
+    category VARCHAR(50),
+    description TEXT,
+    unit VARCHAR(20),
+    expiry_date DATE,
+    photo_url VARCHAR(500),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+CREATE TABLE inventory (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    item_id UUID REFERENCES items(id),
+    storage_location_id UUID REFERENCES storage_locations(id),
+    quantity DECIMAL(10,2) NOT NULL,
+    batch_number VARCHAR(50),
+    expiry_date DATE,
+    received_date TIMESTAMP DEFAULT NOW(),
+    fifo_rank INTEGER GENERATED ALWAYS AS (EXTRACT(EPOCH FROM received_date)) STORED
+);
+CREATE TABLE purchase_orders (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    po_number VARCHAR(50) UNIQUE NOT NULL,
+    supplier_id UUID REFERENCES users(id),
+    requester_id UUID REFERENCES users(id),
+    type VARCHAR(10) CHECK (type IN ('IN', 'OUT')),
+    status VARCHAR(20) DEFAULT 'DRAFT', -- DRAFT, PENDING, APPROVED, REJECTED
+    total_amount DECIMAL(12,2),
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+CREATE TABLE po_items (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    po_id UUID REFERENCES purchase_orders(id),
+    item_id UUID REFERENCES items(id),
+    quantity DECIMAL(10,2) NOT NULL,
+    unit_price DECIMAL(10,2),
+    total_price DECIMAL(10,2) GENERATED ALWAYS AS (quantity * unit_price) STORED
+);
+CREATE TABLE approvals (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    po_id UUID REFERENCES purchase_orders(id),
+    approver_id UUID REFERENCES users(id),
+    approver_role VARCHAR(20),
+    status VARCHAR(10) CHECK (status IN ('PENDING', 'APPROVED', 'REJECTED')),
+    comments TEXT,
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(po_id, approver_id)
+);
+CREATE TABLE notifications (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES users(id),
+    type VARCHAR(20),
+    message TEXT,
+    related_id UUID,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+INSERT INTO users (username, email, password_hash, role, department) VALUES
+('admin', 'admin@gagakhitam.com', '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 'Management'),
+('warehouse1', 'warehouse@gagakhitam.com', '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'warehouse', 'Warehouse'),
+('qc1', 'qc@gagakhitam.com', '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'qc', 'Quality Control'),
+('supplier1', 'supplier1@vendor.com', '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'supplier', 'External Supplier');
+INSERT INTO warehouses (name, location) VALUES
+('Gudang Utama', 'Jl. Industri No. 1'),
+('Gudang Bahan Mentah', 'Jl. Industri No. 2'),
+('Gudang Cold Storage', 'Jl. Industri No. 3');
+< schema.sql
+;
+ schema.sql
+;
+ schema.sql
+;
+\c webdata;
+\dt
+delete from webdata where users;
+delete from items where users;
+\dt
+drop table storage_locations;
+drop table users;
+drop table warehouse;
+\dt
+drop table warehouses;
+\dt
+\q
+\ls
+\l
+\c wms_gagak_hitam;
+\dt
+select*from users;
+-- bikin user baru
+INSERT INTO users (id, username, email, password_hash, role, department, created_at)
+VALUES (
+    gen_random_uuid(),
+    'tester',
+    'tester@gagakhitam.com',
+    crypt('rahasia123', gen_salt('bf', 10)),
+    'admin',
+    'Management',
+    NOW()
+);
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+INSERT INTO users (id, username, email, password_hash, role, department, created_at)
+VALUES (
+    gen_random_uuid(),
+    'tester',
+    'tester@gagakhitam.com',
+    crypt('rahasia123', gen_salt('bf', 10)),
+    'admin',
+    'Management',
+    NOW()
+);
+\dt
+\l
+\c webdata
+\dt
+drop database wms_gagak_hitam
+;
+\l
+select*from items;
+\l
+\dt
+CREATE TABLE warehouses (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL
+);
+CREATE TABLE locations (
+  id SERIAL PRIMARY KEY,
+  warehouse_id INT REFERENCES warehouses(id) ON DELETE CASCADE,
+  code VARCHAR(50) NOT NULL UNIQUE,  -- contoh: A-01-03
+  description TEXT
+);
+CREATE TABLE items (
+  id SERIAL PRIMARY KEY,
+  sku VARCHAR(50) NOT NULL UNIQUE,
+  name VARCHAR(255) NOT NULL,
+  location_id INT REFERENCES locations(id),
+  stock INT NOT NULL DEFAULT 0
+);
+INSERT INTO warehouses(name) VALUES ('Gudang Utama'), ('Gudang Pending');
+INSERT INTO locations(warehouse_id, code, description) VALUES
+  (1, 'A-01-01', 'Rak A baris 1 bin 1'),
+  (1, 'A-01-02', 'Rak A baris 1 bin 2'),
+  (2, 'B-01-01', 'Pending area B');
+\dt
+create wms_db;
+\l
+create database wms_db;
+\c wms_db
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) DEFAULT 'user'
+);
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT
+);
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    sku VARCHAR(50) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    category_id INTEGER REFERENCES categories(id),
+    quantity INTEGER DEFAULT 0,
+    price DECIMAL(10,2),
+    min_stock INTEGER DEFAULT 10,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+CREATE TABLE transactions (
+    id SERIAL PRIMARY KEY,
+    product_id INTEGER REFERENCES products(id),
+    type VARCHAR(10) CHECK (type IN ('IN', 'OUT')),
+    quantity INTEGER NOT NULL,
+    notes TEXT,
+    user_id INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+INSERT INTO users (username, password, role) VALUES 
+('tester', 'rahasia123', 'admin');
+INSERT INTO categories (name, description) VALUES 
+('Elektronik', 'Produk elektronik'),
+('Pakaian', 'Pakaian dan aksesoris'),
+('Makanan', 'Makanan dan minuman');
+INSERT INTO products (sku, name, category_id, quantity, price) VALUES
+('ELC001', 'Laptop ASUS', 1, 50, 8000000),
+('ELC002', 'Mouse Logitech', 1, 100, 150000),
+('PKN001', 'Kaos Polo', 2, 200, 120000),
+('MKN001', 'Indomie Goreng', 3, 500, 3500);
+\q
+\s wms_db
