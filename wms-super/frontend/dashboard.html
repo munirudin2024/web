@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>WMS Super - Dashboard Lengkap</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>📦 WMS Super Dashboard</h1>
+    <nav>
+      <a href="warehouse.html">Warehouse</a> |
+      <a href="po.html">PO</a> |
+      <a href="#" onclick="logout()">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 1️⃣ Ringkasan -->
+    <section class="cards">
+      <div class="card"><h3 id="totalWh">0</h3><p>Gudang</p></div>
+      <div class="card"><h3 id="totalRack">0</h3><p>Rak</p></div>
+      <div class="card"><h3 id="totalPallet">0</h3><p>Pallet</p></div>
+      <div class="card"><h3 id="totalBox">0</h3><p>Box</p></div>
+    </section>
+
+    <!-- 2️⃣ Scan IN / OUT -->
+    <section>
+      <h2>Scan IN / OUT (FIFO)</h2>
+      <input id="scanSku" placeholder="SKU" />
+      <input id="scanQty" type="number" placeholder="Qty" />
+      <select id="scanType">
+        <option value="IN">IN</option>
+        <option value="OUT">OUT</option>
+      </select>
+      <button onclick="scanAction()">Kirim</button>
+    </section>
+
+    <!-- 3️⃣ Approval Inline -->
+    <section>
+      <h2>Approval Pending</h2>
+      <table id="approvalTable">
+        <thead><tr><th>Box</th><th>SKU</th><th>Qty</th><th>Type</th><th>User</th><th>Aksi</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- 4️⃣ Chart Stok -->
+    <section>
+      <h2>Stok per SKU</h2>
+      <canvas id="stockChart" width="400" height="200"></canvas>
+    </section>
+
+    <!-- 5️⃣ Log Aktivitas -->
+    <section>
+      <h2>Log Terbaru</h2>
+      <ul id="logList"></ul>
+    </section>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

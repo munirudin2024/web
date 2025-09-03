@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>WMS Super - Purchase Order</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+  <header>
+    <h1>📋 Purchase Order</h1>
+    <button onclick="logout()">Logout</button>
+  </header>
+  <main>
+    <section>
+      <h2>Buat PO Baru</h2>
+      <form id="poForm">
+        <input id="po_number" placeholder="Nomor PO" required />
+        <select id="department_id" required></select>
+        <button type="submit">Simpan</button>
+      </form>
+    </section>
+    <section>
+      <h2>Daftar PO</h2>
+      <ul id="poList"></ul>
+    </section>
+  </main>
+  <script src="js/po.js"></script>
+</body>
+</html>

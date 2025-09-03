@@ -1,0 +1,36 @@
+wms-super/
+├── backend/
+│   ├── index.js
+│   ├── .env
+│   ├── package.json
+│   ├── middleware/
+│   │   └── auth.js
+│   └── routes/
+│       ├── auth.js
+│       ├── warehouses.js
+│       ├── racks.js
+│       ├── pallets.js
+│       ├── boxes.js
+│       ├── departments.js
+│       ├── purchaseOrders.js
+│       ├── approvals.js
+│       └── transactions.js
+├── frontend/
+│   ├── index.html (redirect ke login)
+│   ├── login.html
+│   ├── dashboard.html
+│   ├── warehouse.html
+│   ├── po.html
+│   ├── css/
+│   │   ├── style.css
+│   │   └── dashboard.css
+│   └── js/
+│       ├── auth.js
+│       ├── dashboard.js
+│       ├── warehouse.js
+│       ├── po.js
+│       └── utils.js
+├── database/
+│   ├── schema.sql
+│   └── seed.sql
+└── README.md

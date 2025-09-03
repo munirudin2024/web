@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>WMS Super - Warehouse</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+  <header>
+    <h1>📦 Warehouse Manager</h1>
+    <button onclick="logout()">Logout</button>
+  </header>
+  <main>
+    <section>
+      <h2>Tambah Warehouse</h2>
+      <form id="warehouseForm">
+        <input id="name" placeholder="Nama Gudang" required />
+        <input id="address" placeholder="Alamat" />
+        <select id="department_id" required></select>
+        <button type="submit">Simpan</button>
+      </form>
+    </section>
+    <section>
+      <h2>Daftar Warehouse</h2>
+      <ul id="warehouseList"></ul>
+    </section>
+  </main>
+  <script src="js/warehouse.js"></script>
+</body>
+</html>

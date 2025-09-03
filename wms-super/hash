@@ -1,0 +1,19 @@
+INSERT INTO users (username, password, role, department_id) VALUES
+('super', crypt('123456', gen_salt('bf')), 'admin', 1);
+-------------------------------------
+Tiga file itu SANGAT BERGUNA kalau kamu ingin:
+schema.sql → one-shot setup database (tinggal psql -f schema.sql).
+seed.sql → data dummy biar langsung ada contoh warehouse, rack, pallet, box, PO, user.
+README.md → dokumentasi supaya tim (atau kamu sendiri) nggak bingung setup-nya lagi.
+-------------------------------------
+cara membuat file .env agar yang benar
+# 3. Buat .env
+cat > .env << 'EOF'
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_DATABASE=wms_super
+PORT=3000
+JWT_SECRET=wms_super_secret
+EOF
