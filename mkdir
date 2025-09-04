@@ -1,3 +1,22 @@
+melihat daftar remote & Melihat URL Remote
+git remote
+git remote -v
+
+push 1
+git init
+git add .
+git commit -m "catatan"
+git remote add origin https://github.com/nama-pengguna/nama-repo.git
+git push -u origin main
+
+Push 2
+git add .
+git commit -m "catatan"
+git pull
+git push
+
 mkdir AA && cd AA
 mkdir AA BB CC DD
 mkdir -p AA/{aa,bb} BB/{aa/{a,b},bb} CC/{aa/{a/{1,2},b},bb}
+
+thouch AA/aa{1.html,2.html} BB/aa/b{1.html,2.html,3.html}
