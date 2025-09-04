@@ -1,4 +1,3 @@
-cd /workspaces/web
 git add .
-git commit -m "feat: WMS lengkap PostgreSQL + Node.js"
+git commit -m "catatan"
 git push
