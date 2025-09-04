@@ -20,3 +20,7 @@ mkdir AA BB CC DD
 mkdir -p AA/{aa,bb} BB/{aa/{a,b},bb} CC/{aa/{a/{1,2},b},bb}
 
 thouch AA/aa{1.html,2.html} BB/aa/b{1.html,2.html,3.html}
+
+cat > nama_file << 'EOF'
+masukan teks
+EOF
