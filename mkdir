@@ -27,6 +27,19 @@ git commit -m "catatan"
 git pull
 git push
 ------------------------------------
+Gunakan SSH (lebih permanen),Cek punya SSH key belum:
+ls ~/.ssh/id_ed25519.pub
+
+kalau tidak ada, buat:
+ssh-keygen -t ed25519 -C "munirudin2024@example.com"
+cat ~/.ssh/id_ed25519.pub   # copy output
+
+Di GitHub → Settings → SSH and GPG keys → New SSH key → paste key → Save.
+
+Ubah remote:
+git remote set-url origin git@github.com:munirudin2024/web.git
+git push
+-------------------------------------
 mkdir AA && cd AA
 mkdir AA BB CC DD
 mkdir -p AA/{aa,bb} BB/{aa/{a,b},bb} CC/{aa/{a/{1,2},b},bb}
